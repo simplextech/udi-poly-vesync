@@ -1,0 +1,15 @@
+# controller
+ND-controller-NAME = VeSync Controller
+CMD-ctl-QUERY"-NAME = Query
+CMD-ctl-DISCOVER-NAME = Re-Discover
+CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
+ST-ctl-ST-NAME = NodeServer Online
+
+# mynodetype
+ND-vesyncbulb-NAME = Bulb Node
+ST-BULB-ST-NAME = Online Status
+ST-BULB-GV0-NAME = Power Status
+ST-BULB-LEVEL-NAME = Brightness Level
+CMD-BULB-OL-NAME = Set Brightness
+CMD-BULB-DON-NAME = Turn On
+CMD-BULB-DOF-NAME = Turn Off

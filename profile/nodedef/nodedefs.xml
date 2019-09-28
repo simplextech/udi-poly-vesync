@@ -1,0 +1,36 @@
+<nodeDefs>
+    <!-- NODE DEF from 5.0 document http://wiki.universal-devices.com/index.php?title=V50_MAIN -->
+    <!-- controller, this must mach the id in your Controller class-->
+    <nodeDef id="controller" nls="ctl">
+        <editors />
+        <sts>
+			<st id="ST" editor="bool" />
+		</sts>
+        <cmds>
+            <sends />
+            <accepts>
+              <cmd id="QUERY" />
+              <cmd id="DISCOVER" />
+              <cmd id="UPDATE_PROFILE" />
+            </accepts>
+        </cmds>
+    </nodeDef>
+    <nodeDef id="vesyncbulb" nls="BULB">
+        <editors />
+        <sts>
+            <st id="ST" editor="bool" />
+            <st id="GV0" editor="POWER" />
+            <st id="OL" editor="LEVEL" />
+        </sts>
+        <cmds>
+            <sends />
+            <accepts>
+                <cmd id="OL">
+                    <p id="" editor="LEVEL" init="OL" />
+                </cmd>
+                <cmd id="DON" />
+                <cmd id="DOF" />
+            </accepts>
+        </cmds>
+    </nodeDef>
+</nodeDefs>
