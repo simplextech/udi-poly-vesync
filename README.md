@@ -1,4 +1,4 @@
-# MyNodeServer
+# VeSync Polyglot Nodeserver
 
 #### Installation
 - This nodeserver can be installed local through Polyglot Store or through the Polyglot Cloud Store.
@@ -12,3 +12,7 @@
 - ISY994i Firmware 5.x
 - Polyglot Local or Polyglot Cloud
 
+#### Attributions
+- [pyvesync](https://github.com/markperdue/pyvesync)
+- [Universal Devices](https://www.universal-devices.com/)
+- [Polyglot](https://github.com/UniversalDevicesInc/polyglot-v2)
