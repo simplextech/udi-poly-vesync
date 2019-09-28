@@ -35,7 +35,7 @@ class Controller(polyinterface.Controller):
             self.discover()
 
     def shortPoll(self):
-        LOGGER.info('Short Poll: Updating Device Information')
+        # LOGGER.info('Short Poll: Updating Device Information')
         if self.email == self.default_email or self.password == self.default_password:
             LOGGER.info('Please set proper email and password in configuration page, and restart this nodeserver')
         else:
