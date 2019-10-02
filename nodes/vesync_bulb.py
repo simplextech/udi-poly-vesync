@@ -31,8 +31,20 @@ class VeSyncBulbNode(polyinterface.Node):
         self.setDriver('OL', level)
 
     def setOn(self, command):
-        self.bulb.turn_on()
-        self.setDriver('GV0', 100)
+        if 'value' in command.keys():
+            val = int(command['value'])
+            if val == 0:
+                # self.bulb.set_brightness(val)
+                self.bulb.turn_off()
+                self.setDriver('GV0', 0)
+                # self.setDriver('OL', val)
+            else:
+                self.bulb.set_brightness(val)
+                self.setDriver('GV0', 100)
+                self.setDriver('OL', val)
+        else:
+            self.bulb.turn_on()
+            self.setDriver('GV0', 100)
 
     def setOff(self, command):
         self.bulb.turn_off()
