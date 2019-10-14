@@ -15,18 +15,20 @@
             </accepts>
         </cmds>
     </nodeDef>
+
     <nodeDef id="vesyncbulb" nls="BULB">
         <editors />
         <sts>
-            <st id="ST" editor="bool" />
-            <st id="GV0" editor="POWER" />
-            <st id="OL" editor="LEVEL" />
+            <st id="GV0" editor="bool" />
+            <st id="GV1" editor="POWER" />
+            <st id="ST" editor="LEVEL" />
         </sts>
         <cmds>
             <sends />
             <accepts>
+                <cmd id="QUERY" />
                 <cmd id="OL">
-                    <p id="" editor="LEVEL" init="OL" />
+                    <p id="" editor="LEVEL" init="ST" />
                 </cmd>
                 <cmd id="DON" />
                 <cmd id="DOF" />

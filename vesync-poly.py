@@ -53,15 +53,15 @@ class Controller(polyinterface.Controller):
                     for node in self.nodes:
                         if self.nodes[node].address == address:
                             if status == 'online':
-                                self.nodes[node].setDriver('ST', 1)
-                            else:
-                                self.nodes[node].setDriver('ST', 0)
-                            if is_on:
-                                self.nodes[node].setDriver('GV0', 100)
+                                self.nodes[node].setDriver('GV0', 1)
                             else:
                                 self.nodes[node].setDriver('GV0', 0)
+                            if is_on:
+                                self.nodes[node].setDriver('GV1', 100)
+                            else:
+                                self.nodes[node].setDriver('GV1', 0)
                             # Set Level
-                            self.nodes[node].setDriver('OL', level)
+                            self.nodes[node].setDriver('ST', level)
 
     def longPoll(self):
         pass

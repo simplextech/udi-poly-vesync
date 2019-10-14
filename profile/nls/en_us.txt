@@ -7,9 +7,9 @@ ST-ctl-ST-NAME = NodeServer Online
 
 # mynodetype
 ND-vesyncbulb-NAME = Bulb Node
-ST-BULB-ST-NAME = Online Status
-ST-BULB-GV0-NAME = Power Status
-ST-BULB-LEVEL-NAME = Brightness Level
+ST-BULB-GV0-NAME = Online Status
+ST-BULB-GV1-NAME = Power Status
+ST-BULB-ST-NAME = Brightness Level
 CMD-BULB-OL-NAME = Set Brightness
 CMD-BULB-DON-NAME = Turn On
 CMD-BULB-DOF-NAME = Turn Off
