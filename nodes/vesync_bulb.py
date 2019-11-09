@@ -62,7 +62,8 @@ class VeSyncBulbNode(polyinterface.Node):
             self.setDriver('GV1', 0)
             self.setDriver('ST', val)
 
-    def query(self):
+    def query(self, command = None):
+        self.bulb.update()
         status = self.bulb.connection_status
         is_on = self.bulb.is_on
         level = self.bulb.brightness
@@ -79,7 +80,6 @@ class VeSyncBulbNode(polyinterface.Node):
 
         # Set Level
         self.setDriver('ST', level)
-
         self.reportDrivers()
 
     "Hints See: https://github.com/UniversalDevicesInc/hints"
