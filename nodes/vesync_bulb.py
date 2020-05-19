@@ -2,8 +2,9 @@ try:
     import polyinterface
 except ImportError:
     import pgc_interface as polyinterface
-import sys
-from pyvesync import VeSync
+
+
+LOGGER = polyinterface.LOGGER
 
 
 class VeSyncBulbNode(polyinterface.Node):
@@ -14,75 +15,70 @@ class VeSyncBulbNode(polyinterface.Node):
     def start(self):
         status = self.bulb.connection_status
         is_on = self.bulb.is_on
-        level = self.bulb.brightness
-        # print(self.name, status, is_on, level)
+        if is_on:
+            level = self.bulb.brightness
+        else:
+            level = 0
 
         if status == 'online':
-            self.setDriver('GV0', 1)
+            self.setDriver('GV0', 1, force=True)
+            if is_on:
+                self.setDriver('GV1', 100, force=True)
+                self.setDriver('ST', level, force=True)
+            else:
+                self.setDriver('GV1', 0, force=True)
+                self.setDriver('ST', 0, force=True)
         else:
-            self.setDriver('GV0', 0)
-
-        if is_on:
-            self.setDriver('GV1', 100)
-        else:
-            self.setDriver('GV1', 0)
-
-        # Set Level
-        self.setDriver('ST', level)
+            self.setDriver('GV0', 0, force=True)
+            self.setDriver('ST', level, force=True)
 
     def setOn(self, command):
-        if 'value' in command.keys():
-            val = int(command['value'])
-            if val == 0:
-                # self.bulb.set_brightness(val)
-                self.bulb.turn_off()
-                self.setDriver('GV1', 0)
-                # self.setDriver('OL', val)
-            else:
-                self.bulb.set_brightness(val)
-                self.setDriver('GV1', 100)
-                self.setDriver('ST', val)
-        else:
-            self.bulb.turn_on()
-            self.setDriver('GV1', 100)
+        level = self.bulb.brightness
+        self.bulb.turn_on()
+        self.setDriver('GV1', 100, force=True)
+        self.setDriver('ST', level, force=True)
 
     def setOff(self, command):
         self.bulb.turn_off()
-        self.setDriver('GV1', 0)
+        self.setDriver('GV1', 0, force=True)
+        self.setDriver('ST', 0, force=True)
 
     def setLevel(self, command):
-        print('setLevel command: ', command)
+        # print('setLevel command: ', command)
         val = int(command['value'])
-        if val > 0:
+        if val == 0:
+            self.bulb.turn_off()
+            self.setDriver('GV1', 0, force=True)
+            self.setDriver('ST', 0, force=True)
+        elif val > 0:
             self.bulb.set_brightness(val)
-            self.setDriver('GV1', 100)
-            self.setDriver('ST', val)
+            self.setDriver('GV1', 100, force=True)
+            self.setDriver('ST', val, force=True)
         else:
-            self.bulb.set_brightness(val)
-            self.setDriver('GV1', 0)
-            self.setDriver('ST', val)
+            LOGGER.info("Invalid Level Selection")
 
-    def query(self, command = None):
+    def query(self, command=None):
         self.bulb.update()
         status = self.bulb.connection_status
         is_on = self.bulb.is_on
-        level = self.bulb.brightness
+        if is_on:
+            level = self.bulb.brightness
+        else:
+            level = 0
 
         if status == 'online':
-            self.setDriver('GV0', 1)
+            self.setDriver('GV0', 1, force=True)
+            if is_on:
+                self.setDriver('GV1', 100, force=True)
+                self.setDriver('ST', level, force=True)
+            else:
+                self.setDriver('GV1', 0, force=True)
+                self.setDriver('ST', 0, force=True)
         else:
-            self.setDriver('GV0', 0)
+            self.setDriver('GV0', 0, force=True)
+            self.setDriver('ST', level, force=True)
 
-        if is_on:
-            self.setDriver('GV1', 100)
-        else:
-            self.setDriver('GV1', 0)
-
-        # Set Level
-        self.setDriver('ST', level)
-        self.reportDrivers()
-
-    "Hints See: https://github.com/UniversalDevicesInc/hints"
+    # "Hints See: https://github.com/UniversalDevicesInc/hints"
     # hint = [1,2,3,4]
     drivers = [
         {'driver': 'ST', 'value': 0, 'uom': 51},
@@ -91,14 +87,6 @@ class VeSyncBulbNode(polyinterface.Node):
     ]
 
     id = 'vesyncbulb'
-    """
-    id of the node from the nodedefs.xml that is in the profile.zip. This tells
-    the ISY what fields and commands this node has.
-    """
     commands = {
                     'QUERY': query, 'DON': setOn, 'DOF': setOff, 'OL': setLevel
                 }
-    """
-    This is a dictionary of commands. If ISY sends a command to the NodeServer,
-    this tells it which method to call. DON calls setOn, etc.
-    """

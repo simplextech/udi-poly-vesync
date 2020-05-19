@@ -4,7 +4,7 @@
     <nodeDef id="controller" nls="ctl">
         <editors />
         <sts>
-			<st id="ST" editor="bool" />
+			<st id="ST" editor="_2_0" />
 		</sts>
         <cmds>
             <sends />
@@ -19,19 +19,20 @@
     <nodeDef id="vesyncbulb" nls="BULB">
         <editors />
         <sts>
-            <st id="GV0" editor="bool" />
-            <st id="GV1" editor="POWER" />
-            <st id="ST" editor="LEVEL" />
+            <st id="GV0" editor="_2_0" />  <!--Bool-->
+            <st id="GV1" editor="_78_0" /> <!--Power-->
+            <st id="ST" editor="_51_0" />  <!--Local Level-->
         </sts>
         <cmds>
             <sends />
             <accepts>
                 <cmd id="QUERY" />
-                <cmd id="OL">
-                    <p id="" editor="LEVEL" init="ST" />
-                </cmd>
                 <cmd id="DON" />
                 <cmd id="DOF" />
+                <cmd id="OL">
+                    <p id="" editor="_51_0" init="ST" />
+                </cmd>
+
             </accepts>
         </cmds>
     </nodeDef>

@@ -31,42 +31,43 @@ class Controller(polyinterface.Controller):
             self.vesync = VeSync(self.email, self.password)
             self.vesync.login()
             self.vesync.update()
-            # self.vesync.update_energy()
             self.discover()
 
     def shortPoll(self):
-        # LOGGER.info('Short Poll: Updating Device Information')
+        LOGGER.info('Short Poll: Updating Device Information')
         if self.email == self.default_email or self.password == self.default_password:
             LOGGER.info('Please set proper email and password in configuration page, and restart this nodeserver')
         else:
-            self.vesync.update()
-            # self.vesync.update_energy()
 
             if len(self.vesync.bulbs) > 0:
                 for bulb in self.vesync.bulbs:
-                    uuid = bulb.uuid
-                    address = uuid.split('-')[-1]
+                    bulb.update()
+                    address = bulb.uuid.split('-')[-1]
                     status = bulb.connection_status
                     is_on = bulb.is_on
-                    level = bulb.brightness
+                    if is_on:
+                        level = bulb.brightness
+                    else:
+                        level = 0
 
                     for node in self.nodes:
                         if self.nodes[node].address == address:
                             if status == 'online':
-                                self.nodes[node].setDriver('GV0', 1)
+                                self.nodes[node].setDriver('GV0', 1, force=True)
+                                if is_on:
+                                    self.nodes[node].setDriver('GV1', 100, force=True)
+                                    self.nodes[node].setDriver('ST', level, force=True)
+                                else:
+                                    self.nodes[node].setDriver('GV1', 0, force=True)
+                                    self.nodes[node].setDriver('ST', 0, force=True)
                             else:
-                                self.nodes[node].setDriver('GV0', 0)
-                            if is_on:
-                                self.nodes[node].setDriver('GV1', 100)
-                            else:
-                                self.nodes[node].setDriver('GV1', 0)
-                            # Set Level
-                            self.nodes[node].setDriver('ST', level)
+                                self.nodes[node].setDriver('GV0', 0, force=True)
+                                self.nodes[node].setDriver('ST', 0, force=True)
 
     def longPoll(self):
         pass
 
-    def query(self, command = None):
+    def query(self, command=None):
         # self.check_params()
         for node in self.nodes:
             self.nodes[node].reportDrivers()
