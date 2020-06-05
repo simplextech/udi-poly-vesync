@@ -37,33 +37,39 @@ class VeSyncBulbNode(polyinterface.Node):
         if 'value' in command:
             val = int(command['value'])
             if val == 0:
-                self.bulb.turn_off()
+                # self.bulb.turn_off()
                 self.setDriver('GV1', 0, force=True)
                 self.setDriver('ST', 0, force=True)
+                self.bulb.turn_off()
             elif val > 0:
-                self.bulb.set_brightness(val)
+                # self.bulb.set_brightness(val)
                 self.setDriver('GV1', 100, force=True)
                 self.setDriver('ST', val, force=True)
+                self.bulb.set_brightness(val)
         else:
-            self.bulb.turn_on()
+            # self.bulb.turn_on()
             self.setDriver('GV1', 100, force=True)
             self.setDriver('ST', level, force=True)
+            self.bulb.turn_on()
 
     def setOff(self, command):
-        self.bulb.turn_off()
+        # self.bulb.turn_off()
         self.setDriver('GV1', 0, force=True)
         self.setDriver('ST', 0, force=True)
+        self.bulb.turn_off()
 
     def setLevel(self, command):
         val = int(command['value'])
         if val == 0:
-            self.bulb.turn_off()
+            # self.bulb.turn_off()
             self.setDriver('GV1', 0, force=True)
             self.setDriver('ST', 0, force=True)
+            self.bulb.turn_off()
         elif val > 0:
-            self.bulb.set_brightness(val)
+            # self.bulb.set_brightness(val)
             self.setDriver('GV1', 100, force=True)
             self.setDriver('ST', val, force=True)
+            self.bulb.set_brightness(val)
         else:
             LOGGER.info("Invalid Level Selection")
 
